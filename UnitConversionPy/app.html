@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+    <div id="input">
+    <select id="category" onchange="updateUnits()">
+        <option value="length">Length</option>
+        <option value="temperature">Temperature</option>
+    </select>
+
+    <input id="value" placeholder="Enter value">
+
+    <select id="from"></select>
+    <select id="to"></select>
+
+    <button onclick="convert()">Convert</button>
+
+    <div id="result"></div>
+    </div>
+
+    <script>
+        const categoryEl = document.getElementById("category")
+        const fromEl = document.getElementById("from")
+        const toEl = document.getElementById("to")
+        const valueEl = document.getElementById("value")
+        const resultEl = document.getElementById("result")
+
+        const units = {
+            length: ["mm", "cm", "m", "dm", "hm", "km", "in", "ft", "yd", "mi"],
+            temperature: ["c", "f", "k"]
+        }
+
+        function updateUnits() {
+            const cat = categoryEl.value
+            fromEl.innerHTML = ""
+            toEl.innerHTML = ""
+            units[cat].forEach(u => {
+                fromEl.add(new Option(u, u))
+                toEl.add(new Option(u, u))
+            })
+            resultEl.innerText = ""
+        }
+
+        async function convert() {
+            if (!window.pywebview?.api) {
+                resultEl.innerText = "Backend not ready"
+                return
+            }
+
+            const res = await window.pywebview.api.convert(
+                categoryEl.value,
+                fromEl.value,
+                toEl.value,
+                valueEl.value
+            )
+
+            resultEl.innerText = res
+        }
+
+        document.addEventListener("DOMContentLoaded", updateUnits)
+    </script>
+</body>
+
+</html>
