@@ -20,5 +20,5 @@ A lightweight **desktop unit converter** built with **Python** and **PyWebView**
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/RC-137/UnitConverter.git
-cd UnitConverter
+git clone https://github.com/RC-137/UnitConversionPy.git
+cd UnitConversionPy
